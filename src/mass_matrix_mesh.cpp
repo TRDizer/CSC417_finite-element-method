@@ -18,14 +18,14 @@ void mass_matrix_mesh(Eigen::SparseMatrixd &M, Eigen::Ref<const Eigen::VectorXd>
         Eigen::RowVector4i current_tetrahedron = T.row(i);
 
         // dummy step for sanity check as mass_matrix_linear_tetrahedron does not need qdot at all
-        Eigen::Vector12d current_tetrahedron_qdot;
-        current_tetrahedron_qdot << qdot.segment<3>(current_tetrahedron(0) * 3),
-                                    qdot.segment<3>(current_tetrahedron(1) * 3),
-                                    qdot.segment<3>(current_tetrahedron(2) * 3),
-                                    qdot.segment<3>(current_tetrahedron(3) * 3);
+        // Eigen::Vector12d current_tetrahedron_qdot;
+        // current_tetrahedron_qdot << qdot.segment<3>(current_tetrahedron(0) * 3),
+                                    // qdot.segment<3>(current_tetrahedron(1) * 3),
+                                    // qdot.segment<3>(current_tetrahedron(2) * 3),
+                                    // qdot.segment<3>(current_tetrahedron(3) * 3);
 
         Eigen::Matrix1212d current_tetrahedron_M;
-        mass_matrix_linear_tetrahedron(current_tetrahedron_M, current_tetrahedron_qdot, T.row(i), density, v0(i));
+        mass_matrix_linear_tetrahedron(current_tetrahedron_M, qdot, T.row(i), density, v0(i));
         
         // Iterate to populate 16 total d2V/d(corner_i)(corner_j) blocks
         for (int phi_i = 0; phi_i < 4; phi_i++) {
